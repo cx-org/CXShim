@@ -8,6 +8,7 @@ let package = Package(
         .library(name: "CXShim", targets: ["CXShim"]),
     ],
     targets: [
+        .target(name: "CXCompatible"),
         .target(name: "CXShim"),
     ]
 )
@@ -48,17 +49,16 @@ enum CombineImplementation {
     
     var packageDependencies: [Package.Dependency] {
         switch self {
-        // TODO: move CXCompatible into this repo
+        case .combine: return []
         // FIXME: branch
-        case .combineX, .combine: return [.package(url: "https://github.com/cx-org/CombineX", .branch("strip-cxshim"))]
+        case .combineX: return [.package(url: "https://github.com/cx-org/CombineX", .branch("strip-cxshim"))]
         case .openCombine: return  [.package(url: "https://github.com/broadwaylamb/OpenCombine", .upToNextMinor(from: "0.11.0"))]
-        // default: return []
         }
     }
     
     var shimTargetDependencies: [Target.Dependency] {
         switch self {
-        case .combine:      return [.product(name: "CXCompatible", package: "CombineX")]
+        case .combine:      return ["CXCompatible"]
         case .combineX:     return ["CombineX"]
         case .openCombine:  return ["OpenCombine", "OpenCombineDispatch"]
         }
@@ -73,23 +73,6 @@ extension ProcessInfo {
     
     var combineImplementation: CombineImplementation {
         return environment["CX_COMBINE_IMPLEMENTATION"].flatMap(CombineImplementation.init) ?? .default
-    }
-    
-    var isCI: Bool {
-        return (environment["CX_CONTINUOUS_INTEGRATION"] as NSString?)?.boolValue ?? false
-    }
-}
-
-extension Optional where Wrapped: RangeReplaceableCollection {
-    
-    mutating func append(contentsOf newElements: [Wrapped.Element]) {
-        if newElements.isEmpty { return }
-        
-        if let wrapped = self {
-            self = wrapped + newElements
-        } else {
-            self = .init(newElements)
-        }
     }
 }
 

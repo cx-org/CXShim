@@ -1,7 +1,12 @@
 #if USE_COMBINE
 
 @_exported import Combine
+
+#if CX_PRIVATE_SHIM
+@_exported import _CXCompatible
+#else
 @_exported import CXCompatible
+#endif
 
 #elseif USE_COMBINEX
 
