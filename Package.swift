@@ -50,9 +50,8 @@ enum CombineImplementation {
     var packageDependencies: [Package.Dependency] {
         switch self {
         case .combine: return []
-        // FIXME: branch
-        case .combineX: return [.package(url: "https://github.com/cx-org/CombineX", .branch("strip-cxshim"))]
-        case .openCombine: return  [.package(url: "https://github.com/broadwaylamb/OpenCombine", .upToNextMinor(from: "0.11.0"))]
+        case .combineX: return [.package(url: "https://github.com/cx-org/CombineX", .branch("master"))]
+        case .openCombine: return  [.package(url: "https://github.com/broadwaylamb/OpenCombine", .upToNextMinor(from: "0.12.0"))]
         }
     }
     
@@ -60,7 +59,11 @@ enum CombineImplementation {
         switch self {
         case .combine:      return ["CXCompatible"]
         case .combineX:     return ["CombineX"]
-        case .openCombine:  return ["OpenCombine", "OpenCombineDispatch"]
+        case .openCombine:  return [
+            "OpenCombine",
+            .product(name: "OpenCombineDispatch", package: "OpenCombine"),
+            .product(name: "OpenCombineFoundation", package: "OpenCombine"),
+        ]
         }
     }
 }
