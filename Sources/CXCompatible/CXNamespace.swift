@@ -1,3 +1,5 @@
+// This file should be identical to https://github.com/cx-org/CombineX/blob/master/Sources/CombineX/CXNamespace.swift
+
 public protocol CXWrapper {
     
     associatedtype Base

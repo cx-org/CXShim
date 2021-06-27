@@ -10,6 +10,9 @@ let package = Package(
     targets: [
         .target(name: "CXCompatible"),
         .target(name: "CXShim"),
+        
+        // Just make sure it compiles. We run functionality tests in CombineX repo.
+        .testTarget(name: "CXShimSmokeTests", dependencies: ["CXShim"])
     ]
 )
 
