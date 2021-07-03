@@ -6,13 +6,29 @@
 
 CXShim is a virtual Combine interface that allows you to switch berween system Combine and open source Combine.
 
+> With CXShim, you shoudn't write different code for different Combine. If you find you are in need of it, please file an issue.
+
+## Installation
+
+Add the following line to the dependencies in your `Package.swift` file:
+
+```swift
+.package(url: "https://github.com/cx-org/CXShim", .upToNextMinor(from: "0.4.0"),
+```
+
+#### Requirements
+
+- Swift 5.0+
+
+## Q&A
+
 #### Why do I need it?
 
 Because Combine has system limitation, and open source Combine doesn't compatible with SwiftUI. With CXShim, You can easily write one package that compatible with SwiftUI, support Linux, and can backward deploy to iOS 9.0.
 
 #### Is there any downside?
 
-No, CXShim introduce no extra dependency, no runtime cost, no binary size incrementation.
+No, CXShim introduce no extra dependency, no runtime cost, no binary size incrementation. It's not infectious. Migrating from Combine to CXShim is a non-breaking change.
 
 #### Looks great! How can I adopt it?
 
@@ -22,7 +38,7 @@ If your package use Combine, just replace every `import Combine` with `import CX
 
 Because system Combine is used by default on Apple platforms. Don't worry, you can choose open source Combine manually and get rid of system requirement.
 
-#### How do choose which Combine to use?
+#### How do I choose which Combine to use?
 
 You can choose Combine implementation by setting environment variable `CX_COMBINE_IMPLEMENTATION`.
 
@@ -30,7 +46,7 @@ Library | Value of `CX_COMBINE_IMPLEMENTATION`
 --- | ---
 [Combine](https://developer.apple.com/documentation/combine) (default on Apple platforms) | `Combine`
 [CombineX](https://github.com/cx-org/CombineX) (default on Linux) | `CombineX`
-Others | [See below](#Can I use other open source Combine?)
+Others | [See below](#can-i-use-other-open-source-combine)
 
 ```shell
 $ export CX_COMBINE_IMPLEMENTATION=CombineX
